@@ -16,7 +16,7 @@ const restart = document.getElementById("restart");
 
 // ---------------- CONFIGURACIÓN ----------------
 
-const velocidad = 45;
+const velocidad = window.innerWidth < 600 ? 30 : 45;
 
 let escena = 0;
 
@@ -194,6 +194,7 @@ nextButton.addEventListener("click", async () => {
     }
 
 });
+
 // =========================================
 // INICIAR TODO
 // =========================================
@@ -532,53 +533,45 @@ function mostrarPregunta(){
 
     terminal.innerHTML = `
 
-        <h2 style="margin-bottom:40px;">
-            ¿Deseas continuar?
-        </h2>
+    <h2 class="question-title">
+        ¿Deseas continuar?
+    </h2>
 
-        <div
-        style="
-        display:flex;
-        justify-content:center;
-        gap:25px;
-        ">
+    <div class="question-buttons">
 
-            <button id="btnNo">
-                No
-            </button>
+        <button id="btnNo" class="ia-button">
+            No
+        </button>
 
-            <button id="btnSi">
-                Sí
-            </button>
+        <button id="btnSi" class="ia-button">
+            Sí
+        </button>
 
-        </div>
+    </div>
 
     `;
+
 
     const btnNo = document.getElementById("btnNo");
     const btnSi = document.getElementById("btnSi");
 
-    let movido = false;
 
     btnNo.onclick = () => {
-
-        if(movido) return;
-
-        movido = true;
 
         btnNo.style.position = "relative";
 
         btnNo.style.left =
-            (Math.random()*180-90)+"px";
+            (Math.random()*200-100)+"px";
 
         btnNo.style.top =
-            (Math.random()*60-30)+"px";
+            (Math.random()*100-50)+"px";
 
     };
 
-    btnSi.onclick = ()=>{
 
-        escenaFinal();
+    btnSi.onclick = async ()=>{
+
+        await escenaFinal();
 
     };
 
@@ -602,6 +595,7 @@ async function escenaFinal() {
     await escribir("Gracias por llegar hasta aquí.");
     await esperar(1500);
 
+
     limpiarTerminal();
 
     await escribirBloque([
@@ -618,7 +612,9 @@ async function escenaFinal() {
 
     ]);
 
+
     await esperar(3000);
+
 
     limpiarTerminal();
 
@@ -634,7 +630,9 @@ async function escenaFinal() {
 
     ]);
 
+
     await esperar(3000);
+
 
     limpiarTerminal();
 
@@ -660,7 +658,9 @@ async function escenaFinal() {
 
     ]);
 
+
     await esperar(4500);
+
 
     limpiarTerminal();
 
@@ -686,7 +686,9 @@ async function escenaFinal() {
 
     ]);
 
+
     await esperar(5000);
+
 
     limpiarTerminal();
 
@@ -704,7 +706,9 @@ async function escenaFinal() {
 
     ]);
 
+
     await esperar(1800);
+
 
     limpiarTerminal();
 
@@ -718,7 +722,9 @@ async function escenaFinal() {
 
     ]);
 
+
     await esperar(2500);
+
 
     limpiarTerminal();
 
@@ -730,12 +736,15 @@ async function escenaFinal() {
 
     ]);
 
+
     await esperar(2500);
 
+
+    // Mostrar pantalla final
     finalScreen.style.display = "flex";
 
-    function escribirFinal() {
 
+    // Escribir mensaje final
     const texto = `
 
 PROYECTO FINALIZADO
@@ -768,38 +777,46 @@ Israel para francisca
 
 `;
 
+
     let i = 0;
 
     finalText.innerHTML = "";
 
-    function escribir() {
 
-        if (i >= texto.length) return;
+    function escribirFinal(){
 
-        if (texto[i] === "\n") {
+        if(i < texto.length){
 
-            finalText.innerHTML += "<br>";
+            if(texto[i] === "\n"){
 
-        } else {
+                finalText.innerHTML += "<br>";
 
-            finalText.innerHTML += texto[i];
+            }else{
+
+                finalText.innerHTML += texto[i];
+
+            }
+
+            i++;
+
+            setTimeout(escribirFinal,35);
 
         }
 
-        i++;
-
-        setTimeout(escribir, 35);
-
     }
 
-    escribir();
 
-}
+    escribirFinal();
 
-restart.onclick = () => {
 
-    location.reload();
 
-};
+    // Botón reiniciar
+
+    restart.onclick = () => {
+
+        location.reload();
+
+    };
+
 
 }
