@@ -185,10 +185,15 @@ nextButton.addEventListener("click", async () => {
 
         await escenaAnalisis();
 
+    } else if (escena === 1) {
+
+        escena = 2;
+
+        await escenaMensaje();
+
     }
 
 });
-
 // =========================================
 // INICIAR TODO
 // =========================================
@@ -375,7 +380,9 @@ async function escenaAnalisis() {
 
     await esperar(1500);
 
-mostrarBoton("Abrir mensaje");
+    escena = 1;
+
+    mostrarBoton("Abrir mensaje");
 
 }
 
